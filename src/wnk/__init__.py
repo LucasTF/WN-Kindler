@@ -1,8 +1,16 @@
 import click
 
-@click.command
-def main():
-    click.echo(click.style('Hello World!', fg='green'))
+from wnk.commands import hello_world, list_sources
+
+VERSION = "0.0.1"
+
+@click.group
+@click.version_option(version=VERSION)
+def commands():
+    pass
+
+commands.add_command(hello_world)
+commands.add_command(list_sources)
 
 if __name__ == '__main__':
-    main()
+    commands()
