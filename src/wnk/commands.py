@@ -1,6 +1,6 @@
 import click
 
-from wnk.sources import Wnsource, get_source_name
+from wnk.sources import Wnsource, get_source_name, create_source
 
 @click.command()
 def hello_world():
@@ -19,6 +19,19 @@ def list_sources():
 @click.option('-l', '--limit', default=50, show_default=True, type=int, help="Max number of novels to show.")
 def list_novels(source, limit):
     """Prints a list of web novels from a specified source."""
-    click.clear()
-    click.echo('Available novels:')
+
+    wnsource = create_source(source)
+
+    if wnsource is None:
+        return click.echo("Invalid source!")
     
+    click.clear()
+    click.echo('Available novels:\n')
+
+    for i, novel in enumerate(wnsource.list_novels()):
+        click.echo(f"{i+1}) {novel}")
+    
+    click.echo("\n-------------------------------------\n")
+    click.echo("Page 1 of 1")
+
+

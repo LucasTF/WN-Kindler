@@ -8,7 +8,7 @@ class Helscans(Source):
         super().__init__('helscans')
 
     def list_novels(page: int = 1, limit: int = 50) -> List[str]:
-        pass
+        return ["Novel A", "Novel B", "Novel C"]
 
     def cache_novels(novel_list: List[str] = None) -> None:
         pass
