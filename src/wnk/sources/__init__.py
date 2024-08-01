@@ -8,32 +8,30 @@ class Wnsource(Enum):
     HELSCANS = 2
     INOVELTRANSLATIONS = 3
     ROYAL_ROAD = 4
-
-def get_source_title(source: Wnsource) -> str:
-    match source:
-        case Wnsource.FAQWIKI:
-            return 'FaqWiki'
-        case Wnsource.HELSCANS:
-            return 'Helscans'
-        case Wnsource.INOVELTRANSLATIONS:
-            return 'iNovelTranslations'
-        case Wnsource.ROYAL_ROAD:
-            return 'Royal Road'
-        case _:
-            return None
         
 class SourceFactory:
 
     def __init__(self, source: int) -> None:
         try:
             self.source = Wnsource(source)
-            self.source_name = get_source_title(Wnsource(source))
+            self.source_name = self.get_source_title(Wnsource(source))
         except ValueError:
             self.source = None
             self.source_name = None
 
-    def get_source_name(self) -> str:
-        return self.__source_name
+    @staticmethod
+    def get_source_title(source: Wnsource) -> str:
+        match source:
+            case Wnsource.FAQWIKI:
+                return 'FaqWiki'
+            case Wnsource.HELSCANS:
+                return 'Helscans'
+            case Wnsource.INOVELTRANSLATIONS:
+                return 'iNovelTranslations'
+            case Wnsource.ROYAL_ROAD:
+                return 'Royal Road'
+            case _:
+                return None
     
     def create_source(self) -> Source:
         match self.source:

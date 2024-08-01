@@ -1,6 +1,6 @@
 import click
 
-from wnk.sources import Wnsource, get_source_title
+from wnk.sources import Wnsource, SourceFactory
 
 @click.command()
 def list_sources():
@@ -8,4 +8,4 @@ def list_sources():
     click.clear()
     click.echo('Available sources:')
     for i, src in enumerate(Wnsource):
-        click.echo(f"{i+1}) {get_source_title(src)}")
+        click.echo(f"{i+1}) {SourceFactory.get_source_title(src)}")
