@@ -1,18 +1,6 @@
 import click
 
-from wnk.sources import Wnsource, get_source_name, create_source
-
-@click.command()
-def hello_world():
-    click.echo('Hello World')
-
-@click.command()
-def list_sources():
-    """Prints a list of available web novel sources."""
-    click.clear()
-    click.echo('Available sources:')
-    for i, src in enumerate(Wnsource):
-        click.echo(f"{i+1}) {get_source_name(src)}")
+from wnk.sources import SourceFactory
 
 @click.command()
 @click.option('-s', '--source', required=True, type=int, help="ID of the source found in the list-sources command.")
@@ -20,10 +8,15 @@ def list_sources():
 def list_novels(source, limit):
     """Prints a list of web novels from a specified source."""
 
-    wnsource = create_source(source)
+    source_factory = SourceFactory(source)
+
+    if source_factory.source is None:
+        return click.echo("Invalid source!")
+    
+    wnsource = source_factory.create_source()
 
     if wnsource is None:
-        return click.echo("Invalid source!")
+        return click.echo("Source unavailable!")
     
     click.clear()
     click.echo('Available novels:\n')
@@ -33,5 +26,3 @@ def list_novels(source, limit):
     
     click.echo("\n-------------------------------------\n")
     click.echo("Page 1 of 1")
-
-

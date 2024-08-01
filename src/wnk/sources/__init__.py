@@ -9,7 +9,7 @@ class Wnsource(Enum):
     INOVELTRANSLATIONS = 3
     ROYAL_ROAD = 4
 
-def get_source_name(source: Wnsource) -> str:
+def get_source_title(source: Wnsource) -> str:
     match source:
         case Wnsource.FAQWIKI:
             return 'FaqWiki'
@@ -19,13 +19,26 @@ def get_source_name(source: Wnsource) -> str:
             return 'iNovelTranslations'
         case Wnsource.ROYAL_ROAD:
             return 'Royal Road'
-    
-def create_source(source_num: int) -> Source:
-
-    source = Wnsource(source_num)
-
-    match source:
-        case Wnsource.HELSCANS:
-            return Helscans()
         case _:
             return None
+        
+class SourceFactory:
+
+    def __init__(self, source: int) -> None:
+        try:
+            self.source = Wnsource(source)
+            self.source_name = get_source_title(Wnsource(source))
+        except ValueError:
+            self.source = None
+            self.source_name = None
+
+    def get_source_name(self) -> str:
+        return self.__source_name
+    
+    def create_source(self) -> Source:
+        match self.source:
+            case Wnsource.HELSCANS:
+                return Helscans()
+            case _:
+                return None
+            
